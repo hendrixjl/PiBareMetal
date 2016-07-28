@@ -8,9 +8,8 @@ import sys
 #    serialPort.write(boot)
     
 
-def main(upload_file):
+def main(port, upload_file):
     try:
-        port = 'com3:'
         serialPort = serial.Serial(port, 115200)
         serialPort.close()
         serialPort.open()
@@ -43,6 +42,6 @@ def main(upload_file):
 
     
 if __name__ == "__main__":
-    main(sys.argv[1])
+    main(sys.argv[1], sys.argv[2])
     exit(0)
 
