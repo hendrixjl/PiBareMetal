@@ -1,4 +1,3 @@
-#include "utils.h"
 #include "gpio.h"
 
 void startc ( void )
