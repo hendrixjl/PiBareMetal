@@ -1,5 +1,26 @@
-#include "utils.h"
+#include "timer.h"
 #include "gpio.h"
+
+enum { HIGH = 1 };
+
+void delay()
+{
+    static const unsigned int BIT_MASK = 0x00400000;
+    unsigned int timer_bit = *SYSTIMERCLO & BIT_MASK;
+    while ((*SYSTIMERCLO & BIT_MASK) == timer_bit);
+}
+
+void flip_led(enum gpio pin)
+{
+    if (gpio_level(pin) == HIGH)
+    {
+        gpio_clear(pin);
+    }
+    else
+    {
+        gpio_set(pin);
+    }
+}
 
 void startc ( void )
 {
@@ -9,9 +30,8 @@ void startc ( void )
 
     while(1)
     {
-        gpio_set(gpio47);
+        flip_led(gpio47);
 
-        enum { HIGH = 1 };
         if (gpio_level(gpio24) == HIGH)
         {
             gpio_set(gpio23);
@@ -21,10 +41,6 @@ void startc ( void )
             gpio_clear(gpio23);
         }
 
-        for (volatile int busy=0; busy<0x400000; busy++);
-
-        gpio_clear(gpio47);
-
-        for (volatile int busy=0; busy<0x400000; busy++);
+        delay();
     }
 }
