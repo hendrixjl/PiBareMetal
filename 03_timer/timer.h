@@ -15,16 +15,16 @@ enum systimer_compare_register {
     systimer_compare_c3=3
 };
 
-inline void systimer_set_compare(systimer_compare_register r, unsigned int time)
+inline void systimer_set_compare(enum systimer_compare_register r, unsigned int time)
 {
     SYSTIMERC0[r] = time;
 }
 
-inline unsigned int systimer_compare_fired(systimer_compare_register r)
+inline unsigned int systimer_compare_fired(enum systimer_compare_register r)
 {
     if (r == systimer_compare_c0)
     {
-        if (*SYSTIMERCS & 0x01) != 0)
+        if ((*SYSTIMERCS & 0x01) != 0)
         {
             *SYSTIMERCS = 0x0E; // reset bit 0
             return 1;
